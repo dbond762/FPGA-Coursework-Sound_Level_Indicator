@@ -173,3 +173,11 @@ mem    <= {mem[6:0], abs_in};   // у буфер іде старе abs_in
 **Рис. 4.** Тестбенч AXI-обгортки `tb_axi_level_indicator` на модулі з помилкою
 
 ![Рис. 4 - Тестбенч AXI обгортки з помилкою](<docs/Figure 4 - AXI wrapper Testbench with bug.png>)
+
+## IP Catalog
+
+Модуль було упаковано в IP block та додано в IP Catalog (Рис. 5).
+
+**Рис. 5.** Модуль AXI Level Indicator в IP Catalog
+
+![Рис. 5 - Модуль AXI Level Indicator в IP Catalog](<docs/Figure 5 - AXI Level Indicator in IP Catalog.png>)
