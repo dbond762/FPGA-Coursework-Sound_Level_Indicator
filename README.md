@@ -181,3 +181,21 @@ mem    <= {mem[6:0], abs_in};   // у буфер іде старе abs_in
 **Рис. 5.** Модуль AXI Level Indicator в IP Catalog
 
 ![Рис. 5 - Модуль AXI Level Indicator в IP Catalog](<docs/Figure 5 - AXI Level Indicator in IP Catalog.png>)
+
+## Block Design
+
+Система будується на базі MicroBlaze процесора, до якого по AXI шині під'єднаний наш IP block AXI Level Indicator.
+
+**Рис. 6.** Block Design
+
+![Рис. 6 - Block Design](<docs/Figure 6 - Block Design.png>)
+
+
+**Рис. 7.** Address Editor
+
+![Рис. 7 - Address Editor](<docs/Figure 7 - Address Editor.png>)
+
+
+**Рис. 8.** Block Design Validation
+
+![Рис. 8 - Block Design Validation](<docs/Figure 8 - Validation Successful.png>)
