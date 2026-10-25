@@ -27,9 +27,9 @@ int main( void )
         li_write_sample(samples[i]);
         u16 peak  = li_read_peak();
         u8  level = li_read_level();
-        xil_printf("in=%d peak=%d level=%d\r\n", samples[i], peak, level);
 
 #ifndef SIMULATION
+        xil_printf("in=%d peak=%d level=%d\r\n", samples[i], peak, level);
         usleep(PAUSE_US);
 #endif
     }

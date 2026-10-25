@@ -2,6 +2,7 @@
 
 # Extra compile definitions, e.g. "SIMULATION" to disable usleep in main.c
 set(USER_COMPILE_DEFINITIONS
+"SIMULATION"
 )
 
 set(USER_UNDEFINED_SYMBOLS
