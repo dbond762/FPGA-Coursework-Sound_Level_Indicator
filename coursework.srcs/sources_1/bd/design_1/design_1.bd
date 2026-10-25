@@ -442,7 +442,7 @@
         "has_run_ip_tcl": "true",
         "parameters": {
           "CLKOUT1_REQUESTED_OUT_FREQ": {
-            "value": "100.000"
+            "value": "90.000"
           },
           "PRIM_IN_FREQ": {
             "value": "125.000"
@@ -462,7 +462,7 @@
       },
       "axi_level_indicator_0": {
         "vlnv": "xilinx.com:user:axi_level_indicator:1.0",
-        "ip_revision": "1",
+        "ip_revision": "3",
         "xci_name": "design_1_axi_level_indicator_0_0",
         "xci_path": "ip\\design_1_axi_level_indicator_0_0\\design_1_axi_level_indicator_0_0.xci",
         "inst_hier_path": "axi_level_indicator_0",
@@ -603,8 +603,8 @@
       "rst_clk_wiz_1_100M_peripheral_aresetn": {
         "ports": [
           "rst_clk_wiz_1_100M/peripheral_aresetn",
-          "axi_level_indicator_0/s_axi_aresetn",
-          "axi_smc/aresetn"
+          "axi_smc/aresetn",
+          "axi_level_indicator_0/s_axi_aresetn"
         ]
       },
       "sys_clk_1": {

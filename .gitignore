@@ -1,6 +1,6 @@
 ###############  Vivado  ###############
 *.jou
-# *.log
+*.log
 *.str
 *.backup.jou
 *.backup.log

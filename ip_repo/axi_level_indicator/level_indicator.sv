@@ -12,6 +12,8 @@ module level_indicator (
     reg [7:0][15:0] m;     // masked
     reg [3:0][15:0] cmp1;
     reg [1:0][15:0] cmp2;
+    reg [15:0]      peak_next;   // комбінаційний максимум вікна
+    reg [7:0]       win_mask;    // win_mask[i] = 1, якщо mem[i] у вікні
     
     wire [15:0] abs_in = in_data[15] ? (~in_data + 16'd1) : in_data;
 
@@ -22,11 +24,33 @@ module level_indicator (
             mem <= {mem[6:0], abs_in};
         end
     end
+
+    // Маска вікна як регістр: порівняння i < window виконується тут,
+    // а не на початку довгого шляху до регістра піку.
+    // mem[0] завжди у вікні, тому N = 0 поводиться як N = 1.
+    always_ff @(posedge clk or posedge reset) begin
+        if (reset) begin
+            win_mask <= 8'b0000_0001;
+        end else begin
+            for (int i = 0; i < 8; i++)
+                win_mask[i] <= (i == 0) || (i < window);
+        end
+    end
+
+    // Регістр піку: розрізає довгий комбінаційний шлях
+    // (маска -> дерево порівнянь -> рівень -> мультиплексор читання AXI).
+    // Пік оновлюється через один такт після запису відліку або зміни N.
+    always_ff @(posedge clk or posedge reset) begin
+        if (reset) begin
+            peak <= '0;
+        end else begin
+            peak <= peak_next;
+        end
+    end
     
     always_comb begin
-        m[0] = mem[0];
-        for (int i = 1; i < 8; i++) begin
-            m[i] = (i < window) ? mem[i] : 0;
+        for (int i = 0; i < 8; i++) begin
+            m[i] = win_mask[i] ? mem[i] : '0;
         end
         
         for (int i = 0; i < 4; i++) begin
@@ -37,9 +61,14 @@ module level_indicator (
             cmp2[i] = (cmp1[i * 2] > cmp1[i * 2 + 1]) ? cmp1[i * 2] : cmp1[i * 2 + 1];
         end
         
-        peak = (cmp2[0] > cmp2[1]) ? cmp2[0] : cmp2[1];
-        
-        level = (17'(peak) + 17'd4095) >> 12;
+        peak_next = (cmp2[0] > cmp2[1]) ? cmp2[0] : cmp2[1];
+    end
+
+    // level = ceil(peak / 4096) = peak[15:12] + (молодші 12 біт не нуль).
+    // Те саме, що (peak + 4095) >> 12, але 4-бітний інкремент замість 17-бітного суматора.
+    // peak <= 0x8000, тому результат 0..8 вміщується в 4 біти.
+    always_comb begin
+        level = peak[15:12] + {3'b000, |peak[11:0]};
     end
 
 endmodule

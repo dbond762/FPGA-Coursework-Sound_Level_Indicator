@@ -55,9 +55,10 @@ module tb_level_indicator();
     task automatic entry(input step_t s, input string name);
         in_data  = s.data;
         in_valid = 1;
-        @(posedge clk); #1;
+        @(posedge clk); #1;      // фронт 1: відлік записано в буфер
         in_valid = 0;
-        
+        @(posedge clk); #1;      // фронт 2: оновлено регістр peak
+
         check(s.peak, s.level, name);
     endtask
 
@@ -126,9 +127,10 @@ module tb_level_indicator();
         };
         do_test("window change", 8, s);
         
-        window = 3; #1;
+        // Зміна N: фронт 1 - оновлено маску вікна, фронт 2 - регістр peak
+        window = 3; repeat (2) @(posedge clk); #1;
         check(10, 1, "window change: N 8->3");
-        window = 8; #1;
+        window = 8; repeat (2) @(posedge clk); #1;
         check(30000, 8, "window change: N 3->8");
     endtask
 
