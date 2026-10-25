@@ -24,6 +24,7 @@ vivado_pid*.str
 *.wcfg
 *.protoinst
 *.jobs/
+*.tmp/
 webtalk*.jou
 webtalk*.log
 usage_statistics_webtalk.*
